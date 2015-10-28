@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".DealsActivity">
+
+    <item
+        android:id="@+id/action_login"
+        android:title="Login"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_splash"
+        android:title="Splash"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_malls"
+        android:title="Malls"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_categories"
+        android:title="Categories"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+</menu>

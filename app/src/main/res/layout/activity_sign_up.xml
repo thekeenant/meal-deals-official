@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.keenant.mealdeals.activity.SignUpActivity"
+    android:background="#ffffff">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:width="225dp"
+            android:inputType="textPersonName" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/dob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Date of Birth"
+            android:width="225dp" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:width="225dp"
+            android:inputType="textEmailAddress" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/email_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Email"
+            android:width="225dp"
+            android:inputType="textEmailAddress" />
+
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:width="225dp"
+            android:inputType="textPassword" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/password_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Confirm password"
+            android:width="225dp"
+            android:inputType="textPassword" />
+
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F3F3F3"
+            android:padding="25dp"
+            android:hint="Sign Up" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:text="@string/login"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
