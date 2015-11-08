@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.logo_text_padding);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override

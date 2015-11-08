@@ -15,7 +15,8 @@ public class RestaurantParser implements Parser<Restaurant> {
         String name = json.get("name").getAsString();
         Mall mall = Cove.getInstance().getMall(json.get("mall_id").getAsInt());
         String location = json.get("location").getAsString();
+        Uri imageUri = Uri.parse(json.get("logo").getAsString());
         
-        return new Restaurant(id, mall, name, location, Uri.parse(""));
+        return new Restaurant(id, mall, name, location, imageUri);
     }
 }

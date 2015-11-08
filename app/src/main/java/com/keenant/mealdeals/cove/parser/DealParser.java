@@ -24,14 +24,11 @@ public class DealParser implements Parser<Deal> {
         String text = json.get("text").getAsString();
         String details = json.get("details").getAsString();
         Uri imageUri = Uri.parse(json.get("image_large").getAsString());
-        Date date = null;
-        try {
-            date = dateformat.parse(json.get("date").getAsString());
-        } catch (ParseException e) {
-            throw new ParserException("failed to read date", e);
-        }
         String code = json.get("code").getAsString();
 
-        return new Deal(id, restaurant, null, text, details, imageUri, date, code);
+        boolean halal = json.get("halal").getAsBoolean();
+        int points = json.get("points").getAsInt();
+
+        return new Deal(id, restaurant, null, text, details, imageUri, points, halal, code);
     }
 }

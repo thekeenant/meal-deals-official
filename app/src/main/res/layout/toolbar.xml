@@ -5,4 +5,12 @@
     android:background="@color/colorPrimary"
     android:theme="@style/AppToolbar"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize" />
+    android:layout_height="?actionBarSize">
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_text"
+        android:layout_gravity="center"
+        android:textColor="#000"
+        android:id="@+id/toolbar_title" />
+</android.support.v7.widget.Toolbar>

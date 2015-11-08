@@ -4,6 +4,7 @@ android:orientation="vertical"
 android:layout_height="match_parent" tools:context=".DealsActivity">
 
     <include layout="@layout/toolbar" />
+    <include layout="@layout/title" />
 
     <ListView
         android:id="@+id/deal_list"

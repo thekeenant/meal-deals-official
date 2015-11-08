@@ -28,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity implements DatePickerDialo
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.logo_text_padding);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         dob.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

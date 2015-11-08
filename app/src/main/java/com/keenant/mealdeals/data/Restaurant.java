@@ -38,7 +38,7 @@ public class Restaurant {
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-//                throw new RuntimeException("Failed to load deal image!");
+                throw new RuntimeException("Failed to load deal image!");
             }
 
             @Override

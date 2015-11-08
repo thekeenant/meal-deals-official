@@ -1,10 +1,18 @@
 package com.keenant.mealdeals.activity;
 
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,13 +44,24 @@ public class DealActivity extends AppCompatActivity {
     @Bind(R.id.deal_details)
     TextView dealDetails;
 
+    @Bind(R.id.deal_points)
+    TextView dealPoints;
+
+    @Bind(R.id.deal_logo)
+    ImageView dealLogo;
+
+    @Bind(R.id.deal_claim)
+    Button dealClaim;
+
+    private EditText[] code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deal);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.logo_text_padding);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         int dealId = getIntent().getExtras().getInt("deal");
         Deal deal = Cove.getInstance(this).getDeal(dealId);
@@ -51,8 +70,84 @@ public class DealActivity extends AppCompatActivity {
         dealRestaurant.setText(deal.getRestaurant().getName());
         dealLocation.setText(deal.getRestaurant().getLocation());
         dealDetails.setText(deal.getDetails());
+        dealPoints.setText("+" + deal.getPoints());
+        Picasso.with(this).load(deal.getRestaurant().getImageUri()).into(dealLogo);
+
+        dealClaim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog().show();
+            }
+        });
 
         Picasso.with(this).load(deal.getImageUri()).into(banner);
+    }
+
+    private AlertDialog dialog() {
+        AlertDialog.Builder codeDialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.popup_code, null);
+
+        codeDialog.setTitle("Deal Code");
+        codeDialog.setMessage("Ask for the Meal Deal code!");
+        codeDialog.setCancelable(true);
+        codeDialog.setView(view);
+
+        final EditText pin1 = (EditText) view.findViewById(R.id.pin_1);
+        final EditText pin2 = (EditText) view.findViewById(R.id.pin_2);
+        final EditText pin3 = (EditText) view.findViewById(R.id.pin_3);
+        final EditText pin4 = (EditText) view.findViewById(R.id.pin_4);
+        code = new EditText[] {pin1, pin2, pin3, pin4};
+
+        for (int x = 0; x < code.length; x++) {
+            final EditText pin = code[x];
+
+            final int i = x;
+
+            pin.addTextChangedListener(new TextWatcher() {
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (i + 1 <= code.length - 1) {
+                        EditText next = code[i + 1];
+                        if (pin.getText().toString().length() == 1)
+                            next.requestFocus();
+                    }
+                    else if (pin.getText().toString().length() == 1) {
+                        // attemptDeal();
+                    }
+                    if (i - 1 >= 0) {
+                        EditText prev = code[i - 1];
+                        if (s.length() == 0)
+                            prev.requestFocus();
+                    }
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+            if (x - 1 >= 0) {
+                final EditText prev = code[x - 1];
+
+                pin.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_DEL)
+                            prev.requestFocus();
+                        return false;
+                    }
+                });
+            }
+
+        }
+
+        return codeDialog.create();
     }
 
     @Override

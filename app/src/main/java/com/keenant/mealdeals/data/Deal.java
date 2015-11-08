@@ -21,19 +21,21 @@ public class Deal {
     @Getter final String text;
     @Getter final String details;
     @Getter final Uri imageUri;
-    @Getter final Date date;
+    @Getter final int points;
+    @Getter final boolean halal;
     @Getter final String code;
 
     @Getter Bitmap image;
 
-    public Deal(int id, Restaurant restaurant, Category category, String text, String details, Uri imageUri, Date date, String code) {
+    public Deal(int id, Restaurant restaurant, Category category, String text, String details, Uri imageUri, int points, boolean halal, String code) {
         this.id = id;
         this.restaurant = restaurant;
         this.category = category;
         this.text = text;
         this.details = details;
         this.imageUri = imageUri;
-        this.date = date;
+        this.points = points;
+        this.halal = halal;
         this.code = code;
         retrieveImage();
     }

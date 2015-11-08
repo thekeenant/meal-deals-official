@@ -18,6 +18,9 @@ public class DealHolder extends ItemViewHolder<Deal> {
     @ViewId(R.id.deal_text)
     TextView text;
 
+    @ViewId(R.id.deal_points)
+    TextView points;
+
     @ViewId(R.id.deal_image)
     ImageView image;
 
@@ -26,6 +29,9 @@ public class DealHolder extends ItemViewHolder<Deal> {
 
     @ViewId(R.id.deal_location)
     TextView location;
+
+    @ViewId(R.id.deal_logo)
+    ImageView logo;
 
     public DealHolder(View view) {
         super(view);
@@ -36,7 +42,9 @@ public class DealHolder extends ItemViewHolder<Deal> {
         text.setText(deal.getText());
         restaurant.setText(deal.getRestaurant().getName());
         location.setText(deal.getRestaurant().getLocation());
+        points.setText("+" + deal.getPoints());
 
         Picasso.with(getContext()).load(deal.getImageUri()).into(image);
+        Picasso.with(getContext()).load(deal.getRestaurant().getImageUri()).into(logo);
     }
 }

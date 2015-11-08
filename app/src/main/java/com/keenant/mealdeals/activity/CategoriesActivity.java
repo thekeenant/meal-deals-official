@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.keenant.mealdeals.CategoryHolder;
 import com.keenant.mealdeals.DealHolder;
@@ -36,7 +37,10 @@ public class CategoriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_categories);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.logo_text_padding);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        TextView text = (TextView) findViewById(R.id.title_text);
+        text.setText("Select a Category");
 
         List<Category> list = new ArrayList<>();
         list.add(new Category(1, "Korean", Uri.parse("https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Food-Dome-128.png")));

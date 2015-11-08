@@ -5,6 +5,7 @@
     android:background="#fff">
 
     <include layout="@layout/toolbar" />
+    <include layout="@layout/title" />
 
     <ListView
         android:id="@+id/category_list"

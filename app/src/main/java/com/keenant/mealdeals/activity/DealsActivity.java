@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.keenant.mealdeals.DealHolder;
 import com.keenant.mealdeals.R;
@@ -34,7 +35,10 @@ public class DealsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_deals);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.logo_text_padding);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        TextView text = (TextView) findViewById(R.id.title_text);
+        text.setText("Find a Deal");
 
         dealAdapter = new EasyAdapter<>(this, DealHolder.class);
         dealList.setAdapter(dealAdapter);
