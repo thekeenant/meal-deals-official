@@ -16,8 +16,12 @@ public class ListParser<T> implements Parser<List<T>> {
 
     @Override
     public List<T> parse(String content) throws ParserException {
-        List<T> list = new ArrayList<>();
         JsonArray array = new JsonArrayParser().parse(content);
+        return parse(array);
+    }
+
+    public List<T> parse(JsonArray array) throws ParserException {
+        List<T> list = new ArrayList<>();
         for (int i = 0; i < array.size(); i++) {
             JsonElement element = array.get(i);
             String str = new Gson().toJson(element);

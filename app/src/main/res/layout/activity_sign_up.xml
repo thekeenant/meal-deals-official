@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:width="225dp"
+            android:fontFamily="sans-serif"
             android:inputType="textPassword" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -58,6 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Confirm password"
+            android:fontFamily="sans-serif"
             android:width="225dp"
             android:inputType="textPassword" />
 

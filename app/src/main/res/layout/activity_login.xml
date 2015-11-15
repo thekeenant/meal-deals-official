@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Password"
+            android:fontFamily="sans-serif"
             android:width="225dp"
             android:inputType="textPassword" />
 

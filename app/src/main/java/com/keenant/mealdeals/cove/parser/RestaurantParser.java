@@ -4,8 +4,12 @@ import android.net.Uri;
 
 import com.google.gson.JsonObject;
 import com.keenant.mealdeals.cove.Cove;
+import com.keenant.mealdeals.data.Code;
 import com.keenant.mealdeals.data.Mall;
 import com.keenant.mealdeals.data.Restaurant;
+
+import java.util.Date;
+import java.util.List;
 
 public class RestaurantParser implements Parser<Restaurant> {
     @Override
@@ -13,10 +17,10 @@ public class RestaurantParser implements Parser<Restaurant> {
         JsonObject json = new JsonObjectParser().parse(content);
         int id = json.get("id").getAsInt();
         String name = json.get("name").getAsString();
-        Mall mall = Cove.getInstance().getMall(json.get("mall_id").getAsInt());
+        List<Mall> malls = new ListParser<>(new MallParser()).parse(json.getAsJsonArray("malls"));
         String location = json.get("location").getAsString();
         Uri imageUri = Uri.parse(json.get("logo").getAsString());
         
-        return new Restaurant(id, mall, name, location, imageUri);
+        return new Restaurant(id, malls, name, location, imageUri, new Code(5555, new Date()));
     }
 }

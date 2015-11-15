@@ -18,25 +18,25 @@ public class Deal {
     @Getter final int id;
     @Getter final Restaurant restaurant;
     @Getter final Category category;
+    @Getter final Mall mall;
     @Getter final String text;
     @Getter final String details;
     @Getter final Uri imageUri;
     @Getter final int points;
     @Getter final boolean halal;
-    @Getter final String code;
 
     @Getter Bitmap image;
 
-    public Deal(int id, Restaurant restaurant, Category category, String text, String details, Uri imageUri, int points, boolean halal, String code) {
+    public Deal(int id, Restaurant restaurant, Category category, Mall mall, String text, String details, Uri imageUri, int points, boolean halal) {
         this.id = id;
         this.restaurant = restaurant;
         this.category = category;
+        this.mall = mall;
         this.text = text;
         this.details = details;
         this.imageUri = imageUri;
         this.points = points;
         this.halal = halal;
-        this.code = code;
         retrieveImage();
     }
 

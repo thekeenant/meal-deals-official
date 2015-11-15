@@ -8,24 +8,28 @@ import com.keenant.mealdeals.cove.Cove;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 public class Restaurant {
     @Getter final int id;
-    @Getter final Mall mall;
+    @Getter final List<Mall> malls;
     @Getter final String name;
     @Getter final String location;
     @Getter final Uri imageUri;
+    @Getter final Code code;
     @Getter Bitmap image;
 
-    public Restaurant(int id, Mall mall, String name, String location, Uri imageUri) {
+    public Restaurant(int id, List<Mall> malls, String name, String location, Uri imageUri, Code code) {
         this.id = id;
-        this.mall = mall;
+        this.malls = malls;
         this.name = name;
         this.location = location;
         this.imageUri = imageUri;
+        this.code = code;
         retrieveImage();
     }
 
