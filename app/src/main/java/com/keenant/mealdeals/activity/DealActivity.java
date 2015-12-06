@@ -1,6 +1,7 @@
 package com.keenant.mealdeals.activity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +16,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.keenant.mealdeals.R;
 import com.keenant.mealdeals.cove.Cove;
+import com.keenant.mealdeals.cove.CoveCallback;
+import com.keenant.mealdeals.cove.Fetcher;
+import com.keenant.mealdeals.cove.parser.JsonObjectParser;
+import com.keenant.mealdeals.data.Code;
 import com.keenant.mealdeals.data.Deal;
+import com.loopj.android.http.AsyncHttpClient;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,6 +63,8 @@ public class DealActivity extends AppCompatActivity {
     @Bind(R.id.deal_claim)
     Button dealClaim;
 
+    private Deal deal;
+
     private EditText[] code;
 
     @Override
@@ -64,7 +76,7 @@ public class DealActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         int dealId = getIntent().getExtras().getInt("deal");
-        Deal deal = Cove.getInstance(this).getDeal(dealId);
+        this.deal = Cove.getInstance(this).getDeal(dealId);
 
         dealText.setText(deal.getText());
         dealRestaurant.setText(deal.getRestaurant().getName());
@@ -112,7 +124,7 @@ public class DealActivity extends AppCompatActivity {
                             next.requestFocus();
                     }
                     else if (pin.getText().toString().length() == 1) {
-                        // attemptDeal();
+                        attemptDeal();
                     }
                     if (i - 1 >= 0) {
                         EditText prev = code[i - 1];
@@ -148,6 +160,36 @@ public class DealActivity extends AppCompatActivity {
         }
 
         return codeDialog.create();
+    }
+
+    private void attemptDeal() {
+        String nums = code[0].getText().toString() + code[1].getText().toString() + code[2].getText().toString() + code[3].getText().toString();
+        Code code = new Code(Integer.parseInt(nums), new Date());
+
+        boolean ok = deal.getRestaurant().getCode().matches(code);
+
+        if (ok) {
+            Fetcher fetcher = Cove.getInstance().fetch("/transactions.json", new JsonObjectParser(), new CoveCallback<JsonObject>() {
+                @Override
+                public void success(JsonObject value) {
+                    Intent intent = new Intent(DealActivity.this, SignUpActivity.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void failure(int statusCode, String body) {
+                    throw new RuntimeException("oops");
+                }
+            });
+
+            fetcher.getParams().put("transaction[user_id]", Cove.getInstance().getUser().getId());
+            fetcher.getParams().put("transaction[deal_id]", deal.getId());
+
+            fetcher.execute("POST");
+        }
+        else {
+            Toast.makeText(this, "Invalid code.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

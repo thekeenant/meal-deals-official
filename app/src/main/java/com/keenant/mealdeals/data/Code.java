@@ -19,4 +19,8 @@ public class Code {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         return fmt.format(date).equals(fmt.format(new Date()));
     }
+
+    public boolean matches(Code code) {
+        return code.getCode() == this.code;
+    }
 }

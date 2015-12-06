@@ -1,6 +1,7 @@
 package com.keenant.mealdeals.cove;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 
 import com.keenant.mealdeals.Constants;
@@ -9,10 +10,14 @@ import com.keenant.mealdeals.cove.parser.ListParser;
 import com.keenant.mealdeals.cove.parser.MallParser;
 import com.keenant.mealdeals.cove.parser.Parser;
 import com.keenant.mealdeals.cove.parser.RestaurantParser;
+import com.keenant.mealdeals.cove.parser.UserParser;
 import com.keenant.mealdeals.data.Deal;
 import com.keenant.mealdeals.data.Mall;
 import com.keenant.mealdeals.data.Restaurant;
+import com.keenant.mealdeals.data.User;
+import com.securepreferences.SecurePreferences;
 
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,10 +41,14 @@ public class Cove {
 
     @Getter boolean setup;
 
+    @Getter private User user;
+    private SharedPreferences prefs;
+
     public Cove(Context context) {
         instance = this;
 
         this.context = context;
+        this.prefs = new SecurePreferences(context, (String) null, "prefs.xml");
 
         setup();
     }
@@ -84,7 +93,45 @@ public class Cove {
             }
         });
 
+        login(getUsername(), getPassword(), null);
+
+        if (user != null)
+            fetchDeals.getParams().put("user", user.getId());
+
         new FetcherChain(fetchMalls, fetchRestaurants, fetchDeals).execute();
+    }
+
+    public String getUsername() {
+        return prefs.getString("username", null);
+    }
+
+    public String getPassword() {
+        return prefs.getString("password", null);
+    }
+
+    public void login(String username, String password, final CoveCallback<User> callback) {
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("username", username);
+        edit.putString("password", password);
+        edit.apply();
+
+        Fetcher fetchUser = fetch("/users/auth.json?username=" + username + "&password=" + password, new UserParser(), new CoveCallback<User>() {
+            @Override
+            public void success(User value) {
+                Cove.this.user = value;
+                if (callback != null)
+                    callback.success(value);
+            }
+
+            @Override
+            public void failure(int statusCode, String body) {
+                Cove.this.user = null;
+                if (callback != null)
+                    callback.failure(statusCode, body);
+            }
+        });
+
+        fetchUser.execute();
     }
 
     public void afterSetup(final Runnable runnable) {
