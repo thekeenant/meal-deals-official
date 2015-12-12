@@ -17,7 +17,6 @@ import com.keenant.mealdeals.data.Restaurant;
 import com.keenant.mealdeals.data.User;
 import com.securepreferences.SecurePreferences;
 
-import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -93,7 +92,7 @@ public class Cove {
             }
         });
 
-        login(getUsername(), getPassword(), null);
+        login(getEmail(), getPassword(), null);
 
         if (user != null)
             fetchDeals.getParams().put("user", user.getId());
@@ -101,21 +100,21 @@ public class Cove {
         new FetcherChain(fetchMalls, fetchRestaurants, fetchDeals).execute();
     }
 
-    public String getUsername() {
-        return prefs.getString("username", null);
+    public String getEmail() {
+        return prefs.getString("email", null);
     }
 
     public String getPassword() {
         return prefs.getString("password", null);
     }
 
-    public void login(String username, String password, final CoveCallback<User> callback) {
+    public void login(String email, String password, final CoveCallback<User> callback) {
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("username", username);
+        edit.putString("email", email);
         edit.putString("password", password);
         edit.apply();
 
-        Fetcher fetchUser = fetch("/users/auth.json?username=" + username + "&password=" + password, new UserParser(), new CoveCallback<User>() {
+        Fetcher fetchUser = fetch("/users/auth.json?email=" + email + "&password=" + password, new UserParser(), new CoveCallback<User>() {
             @Override
             public void success(User value) {
                 Cove.this.user = value;

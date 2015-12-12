@@ -15,6 +15,7 @@ import com.keenant.mealdeals.DealHolder;
 import com.keenant.mealdeals.R;
 import com.keenant.mealdeals.cove.Cove;
 import com.keenant.mealdeals.data.Category;
+import com.keenant.mealdeals.data.Mall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,8 @@ public class CategoriesActivity extends AppCompatActivity {
     ListView categoryList;
     EasyAdapter<Category> categoryAdapter;
 
+    private static Mall mall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,8 @@ public class CategoriesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mall = Cove.getInstance(this).getMall(getIntent().getExtras().getInt("mall"));
 
         TextView text = (TextView) findViewById(R.id.title_text);
         text.setText("Select a Category");
@@ -65,6 +70,7 @@ public class CategoriesActivity extends AppCompatActivity {
                 Category category = categoryAdapter.getItem(index);
                 Intent intent = new Intent(getApplicationContext(), DealsActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putInt("mall", mall.getId());
                 bundle.putInt("category", category.getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
