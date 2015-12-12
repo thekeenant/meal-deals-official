@@ -42,24 +42,19 @@ public class CategoriesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mall = Cove.getInstance(this).getMall(getIntent().getExtras().getInt("mall"));
-
         TextView text = (TextView) findViewById(R.id.title_text);
         text.setText("Select a Category");
 
-        List<Category> list = new ArrayList<>();
-        list.add(new Category(1, "Korean", Uri.parse("https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Food-Dome-128.png")));
-        list.add(new Category(2, "Italian", Uri.parse("https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Money-Graph-128.png")));
-        list.add(new Category(3, "Vietnamese", Uri.parse("https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/food-128.png")));
-        list.add(new Category(4, "Chinese", Uri.parse("https://cdn2.iconfinder.com/data/icons/thesquid-ink-40-free-flat-icon-pack/64/carrot-128.png")));
+        mall = Cove.getInstance(this).getMall(getIntent().getExtras().getInt("mall"));
 
-        categoryAdapter = new EasyAdapter<>(this, CategoryHolder.class, list);
+        categoryAdapter = new EasyAdapter<>(this, CategoryHolder.class, new ArrayList<Category>());
         categoryList.setAdapter(categoryAdapter);
 
         Cove.getInstance(this).afterSetup(new Runnable() {
             @Override
             public void run() {
                 // todo add items
+                categoryAdapter.addItems(Cove.getInstance().getCategories());
                 categoryAdapter.notifyDataSetChanged();
             }
         });

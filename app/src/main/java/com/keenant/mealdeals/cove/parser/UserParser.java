@@ -14,6 +14,10 @@ public class UserParser implements Parser<User> {
     @Override
     public User parse(String content) throws ParserException {
         JsonObject json = new JsonObjectParser().parse(content);
+
+        if (json.entrySet().size() == 0)
+            return null;
+
         int id = json.get("id").getAsInt();
         String email = json.get("email").getAsString();
         Date dob = null;

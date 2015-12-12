@@ -5,12 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 
 import com.keenant.mealdeals.Constants;
+import com.keenant.mealdeals.cove.parser.CategoryParser;
 import com.keenant.mealdeals.cove.parser.DealParser;
 import com.keenant.mealdeals.cove.parser.ListParser;
 import com.keenant.mealdeals.cove.parser.MallParser;
 import com.keenant.mealdeals.cove.parser.Parser;
 import com.keenant.mealdeals.cove.parser.RestaurantParser;
 import com.keenant.mealdeals.cove.parser.UserParser;
+import com.keenant.mealdeals.data.Category;
 import com.keenant.mealdeals.data.Deal;
 import com.keenant.mealdeals.data.Mall;
 import com.keenant.mealdeals.data.Restaurant;
@@ -37,6 +39,7 @@ public class Cove {
     @Getter private List<Mall> malls;
     @Getter private List<Restaurant> restaurants;
     @Getter private List<Deal> deals;
+    @Getter private List<Category> categories;
 
     @Getter boolean setup;
 
@@ -83,6 +86,18 @@ public class Cove {
             @Override
             public void success(List<Deal> value) {
                 Cove.this.deals = value;
+            }
+
+            @Override
+            public void failure(int statusCode, String body) {
+
+            }
+        });
+
+        final Fetcher fetchCategories = fetch("/categories.json", new ListParser<>(new CategoryParser()), new CoveCallback<List<Category>>() {
+            @Override
+            public void success(List<Category> value) {
+                Cove.this.categories = value;
                 setup = true;
             }
 
@@ -97,7 +112,7 @@ public class Cove {
         if (user != null)
             fetchDeals.getParams().put("user", user.getId());
 
-        new FetcherChain(fetchMalls, fetchRestaurants, fetchDeals).execute();
+        new FetcherChain(fetchMalls, fetchRestaurants, fetchDeals, fetchCategories).execute();
     }
 
     public String getEmail() {
@@ -118,7 +133,9 @@ public class Cove {
             @Override
             public void success(User value) {
                 Cove.this.user = value;
-                if (callback != null)
+                if (user == null && callback != null)
+                    callback.failure(0, "null");
+                else if (callback != null)
                     callback.success(value);
             }
 

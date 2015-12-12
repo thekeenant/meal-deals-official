@@ -19,8 +19,10 @@ public class RestaurantParser implements Parser<Restaurant> {
         String name = json.get("name").getAsString();
         List<Mall> malls = new ListParser<>(new MallParser()).parse(json.getAsJsonArray("malls"));
         String location = json.get("location").getAsString();
+        String about = json.get("about") == null ? null : json.get("about").getAsString();
         Uri imageUri = Uri.parse(json.get("logo").getAsString());
+        int code = Integer.parseInt(json.get("code").getAsString());
         
-        return new Restaurant(id, malls, name, location, imageUri, new Code(5555, new Date()));
+        return new Restaurant(id, malls, name, location, about, imageUri, new Code(code, new Date()));
     }
 }

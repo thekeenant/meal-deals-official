@@ -1,10 +1,12 @@
 package com.keenant.mealdeals.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.keenant.mealdeals.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -21,6 +23,9 @@ public class SignUpActivity extends AppCompatActivity implements DatePickerDialo
 
     @Bind(R.id.dob)
     EditText dob;
+
+    @Bind(R.id.login_link)
+    TextView loginLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,14 @@ public class SignUpActivity extends AppCompatActivity implements DatePickerDialo
                         now.get(Calendar.DAY_OF_MONTH)
                 );
                 dialog.show(getFragmentManager(), "date-dialog");
+            }
+        });
+
+        loginLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }

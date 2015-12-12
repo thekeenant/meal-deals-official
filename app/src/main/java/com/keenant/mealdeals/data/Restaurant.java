@@ -19,15 +19,17 @@ public class Restaurant {
     @Getter final List<Mall> malls;
     @Getter final String name;
     @Getter final String location;
+    @Getter final String about;
     @Getter final Uri imageUri;
     @Getter final Code code;
     @Getter Bitmap image;
 
-    public Restaurant(int id, List<Mall> malls, String name, String location, Uri imageUri, Code code) {
+    public Restaurant(int id, List<Mall> malls, String name, String location, String about, Uri imageUri, Code code) {
         this.id = id;
         this.malls = malls;
         this.name = name;
         this.location = location;
+        this.about = about;
         this.imageUri = imageUri;
         this.code = code;
         retrieveImage();

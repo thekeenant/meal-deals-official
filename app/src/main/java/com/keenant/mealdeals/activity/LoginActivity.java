@@ -78,6 +78,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void fail() {
-        Toast.makeText(this, "Invaild usernmae & password.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Invalid username & password.", Toast.LENGTH_LONG).show();
     }
 }
