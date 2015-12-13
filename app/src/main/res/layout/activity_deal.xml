@@ -99,6 +99,13 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp" />
 
+
+            <TextView
+                android:id="@+id/deal_restaurant_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp" />
+
         </LinearLayout>
 
     </ScrollView>
