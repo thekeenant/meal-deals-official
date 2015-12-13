@@ -54,6 +54,9 @@ public class DealActivity extends AppCompatActivity {
     @Bind(R.id.deal_details)
     TextView dealDetails;
 
+    @Bind(R.id.deal_restaurant_info)
+    TextView restaurantInfo;
+
     @Bind(R.id.deal_points)
     TextView dealPoints;
 
@@ -82,6 +85,7 @@ public class DealActivity extends AppCompatActivity {
         dealRestaurant.setText(deal.getRestaurant().getName());
         dealLocation.setText(deal.getRestaurant().getLocation());
         dealDetails.setText(deal.getDetails());
+        restaurantInfo.setText(deal.getRestaurant().getAbout());
         dealPoints.setText("+" + deal.getPoints());
         Picasso.with(this).load(deal.getRestaurant().getImageUri()).into(dealLogo);
 
@@ -172,13 +176,16 @@ public class DealActivity extends AppCompatActivity {
             Fetcher fetcher = Cove.getInstance().fetch("/transactions.json", new JsonObjectParser(), new CoveCallback<JsonObject>() {
                 @Override
                 public void success(JsonObject value) {
-                    Intent intent = new Intent(DealActivity.this, SignUpActivity.class);
+                    Intent intent = new Intent(DealActivity.this, DealSealedActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("deal", deal.getId());
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
 
                 @Override
                 public void failure(int statusCode, String body) {
-                    throw new RuntimeException("oops");
+                    throw new RuntimeException(body);
                 }
             });
 

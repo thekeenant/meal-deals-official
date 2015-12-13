@@ -12,4 +12,5 @@
     <string name="login"><u>Already have an account?</u></string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_categories">CategoriesActivity</string>
+    <string name="title_activity_deal_sealed">DealSealedActivity</string>
 </resources>

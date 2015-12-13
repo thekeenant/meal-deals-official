@@ -1,11 +1,14 @@
 package com.keenant.mealdeals.cove.parser;
 
 import com.google.gson.JsonObject;
+import com.keenant.mealdeals.data.Transaction;
 import com.keenant.mealdeals.data.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class UserParser implements Parser<User> {
@@ -27,6 +30,10 @@ public class UserParser implements Parser<User> {
             e.printStackTrace();
         }
 
-        return new User(id, email, dob);
+        List<Transaction> transactions = new ArrayList<>();
+        if (json.has("transactions"))
+            transactions.addAll(new ListParser<>(new TransactionParser()).parse(json.getAsJsonArray("transactions")));
+
+        return new User(id, email, dob, transactions);
     }
 }
